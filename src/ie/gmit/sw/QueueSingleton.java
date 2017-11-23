@@ -3,12 +3,12 @@ package ie.gmit.sw;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Implements LinkedBlockingQueue and its methods as a singleton(Returns always the exact same LinkedBlockingQueue
+ * Implements a thread safe Queue as a singleton
  * @author Krisztian Nagy
  *
  */
 public final class QueueSingleton {
-	//The que to use
+	//The queue to use
 	private static LinkedBlockingQueue<Shingle> queue;
 	//Flag if the producer done writing
 	private static volatile int[] noOfproducersDone=new int[]{0};
@@ -26,7 +26,7 @@ public final class QueueSingleton {
 	 * @return LinkedBlockingQueue<Shingle>
 	 */
 	public static LinkedBlockingQueue<Shingle> getInstance() {
-		//If the que is null
+		//If the queue is null
 		if(queue==null) {
 			//TODO: get the size from settings or something
 			//Create a new one

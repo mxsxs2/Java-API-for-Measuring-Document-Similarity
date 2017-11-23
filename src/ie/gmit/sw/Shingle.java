@@ -10,21 +10,41 @@ public class Shingle {
 	private int docId;
 	//Has code of the current shingle
 	private int hashCode;
-	
+	/**
+	 * Constructor which initialises the document id and the hashcode
+	 * @param int document id
+	 * @param int hashCode
+	 */
 	public Shingle(int docId, int hashCode) {
 		super();
 		this.docId = docId;
 		this.hashCode = hashCode;
 	}
+	/**
+	 * Returns the document id
+	 * @return int
+	 */
 	public int getDocId() {
 		return docId;
 	}
+	/**
+	 * Sets the document id for this shingle
+	 * @param int 
+	 */
 	public void setDocId(int docId) {
 		this.docId = docId;
 	}
+	/**
+	 * Returns the hashcode 
+	 * @return int
+	 */
 	public int getHashCode() {
 		return hashCode;
 	}
+	/**
+	 * Sets the hashcode of this shingle
+	 * @param int
+	 */
 	public void setHashCode(int hashCode) {
 		this.hashCode = hashCode;
 	}
@@ -48,8 +68,6 @@ public class Shingle {
 		if (getClass() != obj.getClass())
 			return false;
 		Shingle other = (Shingle) obj;
-		if (docId != other.docId)
-			return false;
 		if (hashCode != other.hashCode)
 			return false;
 		return true;

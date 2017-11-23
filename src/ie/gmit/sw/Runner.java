@@ -1,8 +1,10 @@
 package ie.gmit.sw;
 
 
-import java.util.Timer;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import ie.gmit.sw.parser.FileParser;
 
@@ -13,29 +15,33 @@ public class Runner {
 		
 		
 		// Read a new file in a thread
-		Thread t1 = new Thread(new FileParser("warnp.txt", " ", true));
+		Thread t1 = new Thread(new FileParser("warnp.txt", " ", true),"Fileparser");
 		// Start reading
 		t1.start();
-		// Create a consumer thread for testing the file parser
-		Thread t2 = new Thread(() -> {
-			//Run until the producers are done
-			while (!QueueSingleton.isProducersDone()) {
-				try {
-					// Get the next from the queue
-					Shingle s=QueueSingleton.getInstance().take();
-					
-					System.out.println("C1:"+ s.getDocId()+" "+s.getHashCode());
-				} catch (InterruptedException e) {
-				}
-			}
-		},"C-1");
-		t2.start();
+
+		//Create an executor service
+		ExecutorService ex = Executors.newSingleThreadExecutor();
+		//Add the minhasher
+		Future<Boolean> f = ex.submit(new MinHasher(200));
+		
+		
 		try {
-			t2.join();
-		} catch (InterruptedException e) {
+			f.get();
+			ex.shutdown(); //Shut down the thread executor
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally {
+			//Print the min hashes
+			ArrayList<Integer> l = MapSingleton.getInstance().get("warnp.txt".hashCode());
+			System.out.println(l.size());
+			synchronized (l) {
+				//l.forEach(System.out::println);
+			}
+			
 		}
+		
+		
 	}
 
 }

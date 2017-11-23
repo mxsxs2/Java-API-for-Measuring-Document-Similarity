@@ -7,39 +7,38 @@ package ie.gmit.sw.parser;
 
 
 /**
- *
- * @author user
+ * Basic set of methods which a parsebale class should implement
+ * @author Krisztian Nagy
  */
 public interface Parseable{
     
     /**
-     * Check if the source is available
+     * Checks if the source is available
      * @return boolean
      */
     public boolean availableSource();
     
     /**
-     * Get source error message
+     * Returns the source error message
      * @return String
      */
     public String getErrorMessage();
    
     /*
-     * Get the name of the source
+     * Returns the name of the source
      * @return String
      */
     public String getSourceName();
       
     /**
-     * Buffer the parsed content by a regex.
-     * If the regex is an empty String then the line will not be separated
-     * @param separatorRegex
+     * Reads the content of the file.
+     * Returns whether the file was read successfully or not
      * @return boolean
      */
     public boolean readContent();
     
     /**
-     * Get Content Type
+     * Returns the content type of the file
      * @return String
      */
     public String getContentType();

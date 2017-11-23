@@ -4,9 +4,12 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 
+import ie.gmit.sw.MapSingleton;
 import ie.gmit.sw.QueueSingleton;
 import ie.gmit.sw.Shingle;
 
@@ -17,35 +20,40 @@ public class FileParser extends Parser implements Runnable {
 	private BufferedReader br;
 	// file error message
 	private String fileErrorMessage = "";
+	// The file name hash
+	private int fileNameHash;
 
-	public FileParser(String fileName,String separatorRegex, boolean filterLines) {
-		//Call the parent
-		super(separatorRegex,filterLines);
-		//Set the file name
+	public FileParser(String fileName, String separatorRegex, boolean filterLines) {
+		// Call the parent
+		super(separatorRegex, filterLines);
+		// Set the file name
 		this.file = new File(fileName);
-		
+		// Generate the hast from the file name this is O(n) So better to do it here
+		// then individually for very shingle
+		this.fileNameHash = fileName.hashCode();
+
 	}
 
 	@Override
-    public String getSourceName(){
-        //Return the name of the file
-        return this.file.getName();
-    }
-	
-	public String getFileErrorMessage() {
+	public String getSourceName() {
+		// Return the name of the file
+		return this.file.getName();
+	}
+	@Override
+	public String getErrorMessage() {
 		return fileErrorMessage;
 	}
-
+	@Override
 	public boolean availableSource() {
 		// Check if the file exists and if it is actually a file
 		if (this.file.exists() && this.file.canRead())
 			return this.file.isFile();
 		// Set error message
-		this.fileErrorMessage="The file does not exists or cannot read it.";
+		this.fileErrorMessage = "The file does not exists or cannot read it.";
 		// If not the return false;
 		return false;
 	}
-
+	@Override
 	public boolean readContent() {
 		// Check if the file is available
 		if (this.availableSource()) {
@@ -68,13 +76,18 @@ public class FileParser extends Parser implements Runnable {
 		return false;
 	}
 
+	/**
+	 * Goes through each line of the file, splits the lines up to shingles and adds the shingles to the QueueSingleton
+	 * Adds the document key to the MapSingleton and fills up the fixed size list in it with Integer.MAX_VALUE
+	 * @throws IOException
+	 */
 	private void processLines() throws IOException {
-		// Stream through the lines returns 579944(filter after split) words or
-		// 579781(filter before split)
 		// Check if the buffer is empty
 		if (this.br.ready()) {
 			//Add the producer to the QueueSingleton
 			QueueSingleton.addProducer();
+			//Add the new document to the map O(1)
+			MapSingleton.getInstance().put(this.fileNameHash,new ArrayList<Integer>(Collections.nCopies(200, Integer.MAX_VALUE)));
 			// Get the word buffer
 			LinkedList<String> wb = (LinkedList<String>) this.getWordBuffer();
 			//Stream through the lines
@@ -93,13 +106,16 @@ public class FileParser extends Parser implements Runnable {
 			this.addToQue(wb, true);
 			//Set the producer to be stopped
 			QueueSingleton.setProducerDone();
-			
 		}
 		// Close the buffered reader
 		this.br.close();
 	}
-
-	private void addToQue(LinkedList<String> line,boolean lastLine) {
+	/**
+	 * Creates shingles from the line, calculates the hash code on them and adds them to the QueueSingleton.
+	 * @param LinkedList<String> the line to be converted to shingles
+	 * @param boolean Whether this is the last line in the file or not
+	 */
+	private void addToQue(LinkedList<String> line, boolean lastLine) {
 		// Loop the words
 		while (line.size() >= 3) {
 			// Buffer for this shingle
@@ -123,12 +139,12 @@ public class FileParser extends Parser implements Runnable {
 				// Add the words to the builder
 				String shingleString = String.join(" ", shingleBuffer);
 				// Create a new shingle with the document id and the hascode of the shingle
-				Shingle s = new Shingle(this.file.getName().hashCode(), shingleString.hashCode());
+				Shingle s = new Shingle(this.fileNameHash, shingleString.hashCode());
 				// Add the shingle to the blocking queue
 				try {
 					QueueSingleton.getInstance().put(s);
 				} catch (InterruptedException e) {
-					//Nothing we can do about it
+					// Nothing we can do about it
 					e.printStackTrace();
 				}
 			} else {
@@ -145,7 +161,7 @@ public class FileParser extends Parser implements Runnable {
 	/**
 	 * Auto detect the encoding of the file
 	 * 
-	 * @param charsetIndex
+	 * @param int index of the charset array to be used
 	 */
 	private void decodeFile(int charsetIndex) throws IOException {
 		// Declare the encodings to try
@@ -154,6 +170,7 @@ public class FileParser extends Parser implements Runnable {
 			// Create a buffered reader with a given charset
 			BufferedReader br = Files.newBufferedReader(this.file.toPath(), Charset.forName(enc[charsetIndex]));
 			// Temporary line holder
+			@SuppressWarnings("unused")
 			String line;
 			// Try to read the first line
 			if ((line = br.readLine()) != null) {
@@ -171,6 +188,7 @@ public class FileParser extends Parser implements Runnable {
 			}
 		}
 	}
+
 	@Override
 	public String getContentType() {
 		// Set the base type
@@ -191,10 +209,10 @@ public class FileParser extends Parser implements Runnable {
 
 	@Override
 	public void run() {
-		//Read the content and process the lines into shingles and add them to the blocking que
+		// Read the content and process the lines into shingles and add them to the
+		// blocking que
 		this.readContent();
 
 	}
-
 
 }
