@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class MapSingleton {
 	// The map to use
 	private static ConcurrentHashMap<Integer, ArrayList<Integer>> map;
-
+	//private static ConcurrentHashMap<Integer, Integer[]> map;
 	/**
 	 * Private constructor to block instantiation
 	 */
@@ -28,9 +28,21 @@ public final class MapSingleton {
 			// Create a new one
 			map = new ConcurrentHashMap<Integer, ArrayList<Integer>>();
 		}
+		
 		// Return the queue
 		return map;
 	}
+	
+	/*public static ConcurrentHashMap<Integer, Integer[]> getInstance() {
+		// If the map is null
+		if (map == null) {
+			// Create a new one
+			map = new ConcurrentHashMap<Integer, Integer[]>();
+		}
+		
+		// Return the queue
+		return map;
+	}*/
 
 	
 }
