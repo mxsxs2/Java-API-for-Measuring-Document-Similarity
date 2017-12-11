@@ -11,6 +11,10 @@ import ie.gmit.sw.parser.FileParser;
 public class Runner {
 
 	public static void main(String[] args) {
+		
+		new UI().showMenu();
+		
+		/*
 		String file1= "pg10681.txt";
 		//String file1= "warnp.txt";
 		//String file2= "warnp.txt";
@@ -26,15 +30,6 @@ public class Runner {
 		Thread t2 = new Thread(new FileParser(file2, " ", true), "Fileparser2");
 		// Start reading
 		t2.start();
-		/*
-		try {
-			t1.join();
-			t2.join();
-
-			System.out.println("Finished in "+(System.nanoTime() - startTime)/1000000+"ms");
-		}catch(Exception e) {
-			
-		}*/
 		
 		// Create an executor service
 		//ExecutorService ex = Executors.newSingleThreadExecutor();
@@ -64,7 +59,7 @@ public class Runner {
 				System.out.println("Finished in "+(System.nanoTime() - startTime)/1000000+"ms");
 			}
 
-		}
+		}*/
 
 	}
 	
