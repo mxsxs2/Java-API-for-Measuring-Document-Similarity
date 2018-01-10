@@ -3,11 +3,11 @@ package ie.gmit.sw;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 /**
- * Implements a thread safe Mapas a singleton
+ * Implements a thread safe Map as a singleton
  * @author Krisztian Nagy
  *
  */
-public final class MapSingleton {
+public final class MapSingleton{
 	// The map to use
 	private static ConcurrentHashMap<Integer, ArrayList<Integer>> map;
 	//private static ConcurrentHashMap<Integer, Integer[]> map;
@@ -15,10 +15,11 @@ public final class MapSingleton {
 	 * Private constructor to block instantiation
 	 */
 	private MapSingleton() {
+		throw new AssertionError();
 	}
 
 	/**
-	 * Returns the instance of the Map which is thread safe
+	 * Returns the instance of a thread safe map. The map is loaded with lazy loading.
 	 * 
 	 * @return Map<Integer, ArrayList<Integer>>
 	 */
@@ -32,17 +33,5 @@ public final class MapSingleton {
 		// Return the queue
 		return map;
 	}
-	
-	/*public static ConcurrentHashMap<Integer, Integer[]> getInstance() {
-		// If the map is null
-		if (map == null) {
-			// Create a new one
-			map = new ConcurrentHashMap<Integer, Integer[]>();
-		}
-		
-		// Return the queue
-		return map;
-	}*/
-
 	
 }

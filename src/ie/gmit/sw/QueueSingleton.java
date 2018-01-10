@@ -22,6 +22,7 @@ public final class QueueSingleton {
 	 * Private constructor to block instantiation
 	 */
 	private QueueSingleton() {
+		throw new AssertionError();
 	}
 
 	/**
@@ -40,22 +41,28 @@ public final class QueueSingleton {
 		return queue;
 	}
 
+	/**
+	 * Set a producer to be done adding to this queue.
+	 * When all the producers are done, a poison pill is added to the queue
+	 */
 	public static void setProducerDone() {
 		noOfproducersDone[0]++;
 
 		// If there is at least one producer and the number of producers are the same as
 		// the stopped producers the producing is done
 		if (noOfProducers[0] != 0 && noOfproducersDone[0] == noOfProducers[0]) {
-			// Pass half of the size worth of poison pill to the queue
 			try {
-				for(int i=0; i<501; i++)
-					QueueSingleton.getInstance().put(QueueSingleton.POISON_PILL);
+				//Pass the posion pill to the singleton
+				QueueSingleton.getInstance().put(QueueSingleton.POISON_PILL);
 			} catch (InterruptedException e) {
 			}
 		}
 	}
-
+	/**
+	 * Regsters a new producer to this Queue
+	 */
 	public static void addProducer() {
+		//Increase the number of producers
 		noOfProducers[0]++;
 	}
 }

@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Krisztian Nagy
  */
-public abstract class Parser implements Parseable, Cloneable {
+public abstract class Parser implements Parseable {
 	// Buffer the words taken in
 	private LinkedList<String> wordBuffer = new LinkedList<String>();
 	// The posible encodings
@@ -73,20 +73,6 @@ public abstract class Parser implements Parseable, Cloneable {
 	 */
 	public boolean isFilterLines() {
 		return filterLines;
-	}
-
-
-	// Clones the current parser object
-	@Override
-	public Parser clone() throws CloneNotSupportedException {
-		try {
-			// Return the clone of this object
-			return (Parser) super.clone();
-		} catch (CloneNotSupportedException ex) {
-			// Log the errors with sl4j and logback
-			org.slf4j.LoggerFactory.getLogger(this.getClass()).debug(ex.getMessage(), ex);
-		}
-		return this.clone();
 	}
 
 }
