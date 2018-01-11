@@ -5,16 +5,12 @@
  */
 package ie.gmit.sw.parser;
 
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  *
  * @author Krisztian Nagy
  */
 public abstract class Parser implements Parseable {
-	// Buffer the words taken in
-	private LinkedList<String> wordBuffer = new LinkedList<String>();
 	// The posible encodings
 	private String[] encoding = { "UTF-8", "UTF-16", "ISO-8859-1", "GB2312", "Windows-1251", "Windows-1252",
 			"Shift JIS", "GBK", "Windows-1256", "ISO-8859-2", "EUC-JP", "ISO-8859-15", "ISO-8859-9", "Windows-1250",

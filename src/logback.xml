@@ -17,9 +17,9 @@
     </appender>
     <logger name="com.example" level="TRACE"/>
 
-    <root level="debug">
+    <!--<root level="debug">
         <appender-ref ref="STDOUT" />
-    </root>
+    </root>-->
     <root level="trace">
         <appender-ref ref="FILE" />
     </root>
