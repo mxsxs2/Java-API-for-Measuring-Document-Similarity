@@ -14,6 +14,9 @@
 #Javadoc Files
 doc/
 
+#Bin
+bin/
+
 # BlueJ files
 *.ctxt
 
