@@ -25,13 +25,15 @@ java –cp ./oop.jar ie.gmit.sw.Runner
 Option 1 to add a new file for comparison. 
 * Any amount of file can be added for comparison. Once a file is added beside the menu item will increase.
 
-Option 2 to change the sample size. 
+Option 2 to read files from a directory
+* Read in all files from a directory. Provides an option for reading in recursively.
+Option 3 to change the sample size. 
 * The original sample size of for the comparison is set to 200. This size can be any between 1 and 2,147,483,646. How ever too large number will cause low Jaccard Index and too low wil cause high Jaccard Index
 
-Option 3 to change the amount of consumer threads. 
+Option 4 to change the amount of consumer threads. 
 * The original amount of consumer threads is set to 100. This size can be any between 1 and 2,147,483,646. How ever too large or too low number may slow down the application. An optimal number of threads should be created.
 
-Option 4 to compare files.
+Option 5 to compare files.
 * The files can be compared once at least two files are added with option 1. If a file is not available or could not be read then, the file is skipped and an error message is displayed. Until the comparison is finished the "The file comparisons started. Please wait..." message is shown. When the comparison is done, the file names and the Jaccard Indexes are displayed in the console along with the time it took to read the files and compare them.
 
 ## Design
@@ -63,6 +65,10 @@ The Jaccard Index is calculated from the intersections of the lists and the size
 ### Logging
 For logging I used SL4J which is set upt for debug and production environment.
 
+
+### Class Diagram
+
+![UML](uml.png)
 
 ## Dependencies
 
