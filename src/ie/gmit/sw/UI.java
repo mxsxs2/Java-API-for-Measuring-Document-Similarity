@@ -67,8 +67,9 @@ public class UI {
 
 		// Show the options
 		System.out.println("\n\n1. Add file(Files added:" + this.comparator.getNumberOfFiles() + ")");
-		System.out.println("2. Set the sample size(default 200)");
-		System.out.println("3. Calculate Jaccard Index");
+		System.out.println("2. Set the sample size("+(this.comparator.getNumberOfSamples()==200 ?"default 200": "set to "+this.comparator.getNumberOfSamples())+")");
+		System.out.println("3. Set number of consumer threads("+(this.comparator.getPoolSize()==100 ?"default 100": "set to "+this.comparator.getPoolSize())+")");
+		System.out.println("4. Calculate Jaccard Index");
 		System.out.println("-1. Exit");
 
 		// Keep asking until a valid input is given
@@ -81,10 +82,10 @@ public class UI {
 				// Read the int
 				option = this.scanner.nextInt();
 				// Return if it is valid
-				if ((option > 0 || option == -1) && option < 4)
+				if ((option > 0 || option == -1) && option < 5)
 					return option;
 			} catch (InputMismatchException e) {
-
+				org.slf4j.LoggerFactory.getLogger(this.getClass()).debug(e.getMessage(), e);
 			}
 			// Reset if it is invalid
 			option = 0;
@@ -118,15 +119,29 @@ public class UI {
 				System.out.println("\nThe sample size is now set to "+i);
 				break;
 			case 3:
+				System.out.println("\nPlease enter the number of consumer threads:");
+				//Read the pool size
+				int p=this.readInt("The number of consumer threads has to be more than 1. Please input again:");
+				// Set the pool size 
+				this.comparator.setPoolSize(p);
+				System.out.println("\nThe number of consumer threads is now set to "+p);
+				break;
+			case 4:
 				//Check if there is at least two files
 				if(this.comparator.getNumberOfFiles()>1) {
 					// Let the user know the comparison started
 					System.out.println("The file comparisons started. Please wait...");
 					// Compare the files
 					this.comparator.compare().forEach(r -> {
-						// Write out the result
-						System.out.println("Comparison of \"" + r.getFileName1() + "\" and \"" + r.getFileName2()
-								+ " resulted a(n) " + r.getComparisonType() + " of " + r.getResult());
+						//Check if the result is not -999 e.g. error
+						if(!r.getResult().equals("-999")) {
+							// Write out the result
+							System.out.println("Comparison of \"" + r.getFileName1() + "\" and \"" + r.getFileName2()
+									+ " resulted a(n) " + r.getComparisonType() + " of " + r.getResult());
+						}else{
+							//Write out error message
+							System.out.println(r.getComparisonType());
+						}
 					});
 					;
 	

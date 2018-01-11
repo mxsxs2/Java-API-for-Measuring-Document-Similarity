@@ -19,13 +19,17 @@ public class MinHasher{
 	private int[] randomHashCodes;
 	// Size of the hash array
 	private int hashArraySize;
+	// Size of the thread pool
+	private int poolSize;
 
 	/**
 	 * Constructor which initialises the random hash codes array
 	 * 
 	 * @param hashArraySize size of the hash array
+	 * @param poolSize size of the thread pool
 	 */
-	public MinHasher(int hashArraySize) {
+	public MinHasher(int hashArraySize, int poolSize) {
+		this.poolSize=poolSize;
 		this.hashArraySize = hashArraySize;
 		// Generate the hashes
 		this.randomHashCodes=new Random(System.nanoTime()).ints().limit(this.hashArraySize).toArray();
@@ -41,7 +45,7 @@ public class MinHasher{
 		// Keep taking from the queue flag
 		boolean consume = true;
 		// Create a pool of 100 threads
-		ExecutorService ex = Executors.newFixedThreadPool(100);
+		ExecutorService ex = Executors.newFixedThreadPool(this.poolSize);
 		// Run while the producer threads works
 		while (consume) {
 			try {
@@ -61,7 +65,7 @@ public class MinHasher{
 			} catch (InterruptedException e) {
 				// Do nothing the file will be found anyways. We check this before.
 				// Log the errors with sl4j and logback
-				org.slf4j.LoggerFactory.getLogger(this.getClass()).debug(e.getMessage(), e);
+				org.slf4j.LoggerFactory.getLogger(this.getClass()).trace(e.getMessage(), e);
 			}
 		}
 		try {

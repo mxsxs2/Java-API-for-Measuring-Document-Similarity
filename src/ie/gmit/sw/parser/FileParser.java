@@ -11,7 +11,7 @@ import ie.gmit.sw.MapSingleton;
 import ie.gmit.sw.QueueSingleton;
 import ie.gmit.sw.Shingle;
 
-public class FileParser extends Parser implements Runnable {
+public class FileParser extends Parser {
 	// variable for the file
 	private File file;
 	// variable for the buffered reader
@@ -69,7 +69,7 @@ public class FileParser extends Parser implements Runnable {
 			} catch (IOException ex) {
 				// Do nothing the file will be found anyways. We check this before.
 				// Log the errors with sl4j and logback
-				org.slf4j.LoggerFactory.getLogger(this.getClass()).debug(ex.getMessage(), ex);
+				org.slf4j.LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
 
 			}
 		}
@@ -112,7 +112,7 @@ public class FileParser extends Parser implements Runnable {
 					//Add the line to the leftover
 					lsb.append(line);
 					//Split and filter the line
-					StringBuilder sb = filetrAndSplitToShingles(lsb.toString(),false);
+					StringBuilder sb = filterAndSplitToShingles(lsb.toString(),false);
 					//Clear line buffer after the string is used
 					lsb.setLength(0);
 					//If there was any leftover add to the line
@@ -125,7 +125,7 @@ public class FileParser extends Parser implements Runnable {
 
 			
 			// Process the reminder of the lines
-			filetrAndSplitToShingles(lsb.toString(),true);
+			filterAndSplitToShingles(lsb.toString(),true);
 			// Set the producer to be stopped
 			QueueSingleton.setProducerDone();
 		}
@@ -141,7 +141,7 @@ public class FileParser extends Parser implements Runnable {
 	 * @param lastline Boolean, whether this is the last line or not
 	 * @return StringBuffer, the remainder of the line
 	 */
-	private StringBuilder filetrAndSplitToShingles(String line, boolean lastline) {
+	private StringBuilder filterAndSplitToShingles(String line, boolean lastline) {
 		//Previous character
 		char prev=0;
 		//Space counter
@@ -180,7 +180,7 @@ public class FileParser extends Parser implements Runnable {
 							QueueSingleton.getInstance().put(s);
 						} catch (InterruptedException e) {
 							// Nothing we can do about it
-							e.printStackTrace();
+							//e.printStackTrace();
 						}
 						//Reset the space counter
 						spaceCounter=0;
@@ -251,16 +251,9 @@ public class FileParser extends Parser implements Runnable {
 		} catch (IOException ex) {
 			// Do nothing the file will be found anyways. We check this before.
 			// Log the errors with sl4j and logback
-			org.slf4j.LoggerFactory.getLogger(this.getClass()).debug(ex.getMessage(), ex);
+			org.slf4j.LoggerFactory.getLogger(this.getClass()).trace(ex.getMessage(), ex);
 		}
 		return type;
-	}
-
-	@Override
-	public void run() {
-		// Read the content and process the lines into shingles and add them to the blocking queue
-		this.readContent();
-
 	}
 
 }

@@ -19,12 +19,17 @@ public class JaccardIndexCalculator implements FileComparator {
 	private long runtime;
 	// Number of samples
 	private int numberOfSamples;
-
+	// Size of the pool
+	private int poolSize;
+	
 	public JaccardIndexCalculator() {
+		super();
 		this.files = new ArrayList<String>();
 		this.runtime = 0;
 		this.numberOfSamples = 200;
+		this.poolSize=100;
 	}
+	
 
 	public int getNumberOfSamples() {
 		return numberOfSamples;
@@ -32,6 +37,12 @@ public class JaccardIndexCalculator implements FileComparator {
 
 	public void setNumberOfSamples(int numberOfSamples) {
 		this.numberOfSamples = numberOfSamples;
+	}
+	public int getPoolSize() {
+		return this.poolSize;
+	}
+	public void setPoolSize(int poolSize) {
+		this.poolSize=poolSize;
 	}
 
 	@Override
@@ -47,7 +58,11 @@ public class JaccardIndexCalculator implements FileComparator {
 		// Loop the file names
 		this.files.forEach((name) -> {
 			// Read a new file in a thread
-			Thread t1 = new Thread(new FileParser(name, " ", true), "Fileparser - " + name);
+			Thread t1 = new Thread(()->{
+				//Start reading the content of the file
+				new FileParser(name, " ", true).readContent();
+				
+			}, "Fileparser - " + name);
 			// Start reading
 			t1.start();
 		});
@@ -69,7 +84,7 @@ public class JaccardIndexCalculator implements FileComparator {
 		this.readFiles();
 
 		// Create the minhaser
-		MinHasher mh = new MinHasher(this.numberOfSamples);
+		MinHasher mh = new MinHasher(this.numberOfSamples,this.poolSize);
 		// Run the hasher. This is a blocking method
 		mh.run();
 		// The time took to read the files and create the shingles
@@ -83,10 +98,10 @@ public class JaccardIndexCalculator implements FileComparator {
 		for (int i = 0; i < this.files.size(); i++) {
 			// Loop the files list
 			for (int j = i + 1; j < this.files.size(); j++) {
-				// Get the teo list to compare
+				// Get the the list to compare
 				ArrayList<Integer> l = MapSingleton.getInstance().get(this.files.get(i).hashCode());
 				ArrayList<Integer> l2 = MapSingleton.getInstance().get(this.files.get(j).hashCode());
-				// Number of mathcing elements in the lists
+				// Number of matching elements in the lists
 				AtomicInteger intersectionSize = new AtomicInteger(0);
 				// If the list has be created e.g the file was read and the minhashes were
 				// created
@@ -103,6 +118,16 @@ public class JaccardIndexCalculator implements FileComparator {
 					results.add(new Result(this.files.get(i), this.files.get(j), Float.toString(
 							((float) intersectionSize.get() / (float) (l2.size() * 2 - intersectionSize.get()))),
 							"Jaccard Index"));
+				}else {
+					//If the first file could not be opened
+					if(l==null)
+						// Add error "Result"
+						results.add(new Result("", "", "-999",this.files.get(i)+" could not be opened."));
+					//If the second file could not be opened
+					if(l2==null)
+						// Add error "Result"
+						results.add(new Result("", "", "-999","Error: "+this.files.get(j)+" could not be opened."));
+					
 				}
 
 			}
