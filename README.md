@@ -66,9 +66,14 @@ The Jaccard Index is calculated from the intersections of the lists and the size
 For logging I used SL4J which is set upt for debug and production environment.
 
 
-### Class Diagram
+## Class Diagram
 
 ![UML](uml.png)
+
+## Extras
+* Multiple file reading option
+* Compare whole directory content
+
 
 ## Dependencies
 
