@@ -4,6 +4,16 @@
 # Log file
 *.log
 
+# Text files
+*.txt
+
+# Project files
+.project
+.classpath
+
+#Javadoc Files
+doc/
+
 # BlueJ files
 *.ctxt
 
