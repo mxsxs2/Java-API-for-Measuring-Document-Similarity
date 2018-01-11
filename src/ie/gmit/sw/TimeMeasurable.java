@@ -7,7 +7,7 @@ package ie.gmit.sw;
 public interface TimeMeasurable {
 	/**
 	 * Returns the total runtime of a measured section
-	 * @return
+	 * @return The time it took to run an operation
 	 */
 	public long getRuntime();
 }

@@ -23,7 +23,7 @@ public class UI {
 	/***
 	 * Function used to read string from the console.
 	 * 
-	 * @return String
+	 * @return The string which was read in
 	 */
 	private String readString() {
 		// Reset the scanner
@@ -35,7 +35,7 @@ public class UI {
 	/***
 	 * Function used to read int from the console.
 	 * 
-	 * @return int
+	 * @return An int which was read in
 	 */
 	private int readInt(String message) {
 		// Loop until a number is given
@@ -62,7 +62,7 @@ public class UI {
 	/**
 	 * Function used to draw the menu and return the user input
 	 * 
-	 * @return int - menu option
+	 * @return The menu option
 	 */
 	private int drawMainMenu() {
 		// The menu option
@@ -187,7 +187,7 @@ public class UI {
 	
 	/**
 	 * Reads in from the console the users choice to read the directory recursively or not 
-	 * @return boolean
+	 * @return True or false for the recursive option
 	 */
 	private boolean getRecursiveOption() {
 		int option=-1;

@@ -22,28 +22,28 @@ public class Shingle {
 	}
 	/**
 	 * Returns the document id
-	 * @return int
+	 * @return The document id
 	 */
 	public int getDocId() {
 		return docId;
 	}
 	/**
 	 * Sets the document id for this shingle
-	 * @param int 
+	 * @param docId The id of the document
 	 */
 	public void setDocId(int docId) {
 		this.docId = docId;
 	}
 	/**
 	 * Returns the hashcode 
-	 * @return int
+	 * @return The stored hashcode
 	 */
 	public int getHashCode() {
 		return hashCode;
 	}
 	/**
 	 * Sets the hashcode of this shingle
-	 * @param int
+	 * @param hashCode The hashcode to be stored
 	 */
 	public void setHashCode(int hashCode) {
 		this.hashCode = hashCode;

@@ -25,8 +25,8 @@ public abstract class Parser implements Parseable {
 	private boolean filterLines;
 	/**
 	 * Constructor which initilizes the regex to separate the lines with and whether the lines should be filtered or not
-	 * @param String separatorRegex
-	 * @param boolean filterLines
+	 * @param separatorRegex regex to separate the lines
+	 * @param filterLines option t filter the lines or not
 	 */
 	public Parser(String separatorRegex, boolean filterLines) {
 		this.separatorRegex = separatorRegex;
@@ -36,7 +36,7 @@ public abstract class Parser implements Parseable {
 	/**
 	 * The function returns the character encodings
 	 * 
-	 * @return String arrray of encodings
+	 * @return String array of encodings
 	 */
 	public String[] getEncodings() {
 		return this.encoding;
@@ -50,15 +50,6 @@ public abstract class Parser implements Parseable {
 		return "The path is not avalibale or does not exist.";
 	}
 
-	/**
-	 * Returns the word buffer list
-	 * 
-	 * @return List<String> the list of the words
-	 */
-	public List<String> getWordBuffer() {
-		// Return a clone of our lines
-		return this.wordBuffer;
-	}
 	/**
 	 * Returns the regex which is used to separate the lines
 	 * @return String

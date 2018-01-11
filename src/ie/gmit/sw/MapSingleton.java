@@ -21,7 +21,7 @@ public final class MapSingleton{
 	/**
 	 * Returns the instance of a thread safe map. The map is loaded with lazy loading.
 	 * 
-	 * @return Map<Integer, ArrayList<Integer>>
+	 * @return Instance of a concurrent HashMap
 	 */
 	public static ConcurrentHashMap<Integer, ArrayList<Integer>> getInstance() {
 		// If the map is null

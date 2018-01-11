@@ -12,10 +12,10 @@ public class Result {
 	private String comparisonType;
 	/**
 	 * Constructor with fields
-	 * @param fileName1
-	 * @param fileName2
-	 * @param result
-	 * @param comparisonType
+	 * @param fileName1 Path for the first file to be compared
+	 * @param fileName2 Path for the second file to be compared
+	 * @param result Result of the comparison
+	 * @param comparisonType Type of the comparison
 	 */
 	public Result(String fileName1, String fileName2, String result, String comparisonType) {
 		super();

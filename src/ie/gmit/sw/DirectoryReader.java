@@ -23,9 +23,9 @@ public class DirectoryReader {
 	 * Reads the file names from a directory. If the recursive flag is true, it
 	 * reads the files from the sub directories.
 	 * 
-	 * @param dirPath
-	 * @param recursive
-	 * @return List<Path>
+	 * @param dirPath Path of the directory
+	 * @param recursive True or false for recursive reading
+	 * @return List of found Paths
 	 */
 	public static List<Path> getDirectoryContent(Path dirPath, boolean recursive) {
 		// Create a return list for the paths

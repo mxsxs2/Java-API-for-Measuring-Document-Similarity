@@ -9,7 +9,7 @@ import ie.gmit.sw.parser.FileParser;
 /**
  * A Mediator class for the queue, map file parser and the min hasher
  * 
- * @author user
+ * @author Krisztian Nagy
  *
  */
 public class JaccardIndexCalculator implements FileComparator {
@@ -69,7 +69,9 @@ public class JaccardIndexCalculator implements FileComparator {
 	}
 
 	/**
-	 * Compares the predefined files and writes out the jaccard index of them.
+	 * Compares the predefined files and writes out the Jaccard index of them.
+	 * 
+	 * @return List of comparison results
 	 */
 	public List<Result> compare() {
 		// Start the timer
@@ -151,7 +153,7 @@ public class JaccardIndexCalculator implements FileComparator {
 	/**
 	 * Returns the total runtime of the comparison.
 	 * 
-	 * @return
+	 * @return The time it took to run the file reading and comparisons
 	 */
 	public long getRuntime() {
 		return this.runtime;

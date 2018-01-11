@@ -28,7 +28,7 @@ public final class QueueSingleton {
 	/**
 	 * Returns the instance of the LinkedBlockingQueue
 	 * 
-	 * @return LinkedBlockingQueue<Shingle>
+	 * @return Instance of a LinkedBlockingQueue
 	 */
 	public static LinkedBlockingQueue<Shingle> getInstance() {
 		// If the queue is null
@@ -59,7 +59,7 @@ public final class QueueSingleton {
 		}
 	}
 	/**
-	 * Regsters a new producer to this Queue
+	 * Registers a new producer to this Queue
 	 */
 	public static void addProducer() {
 		//Increase the number of producers

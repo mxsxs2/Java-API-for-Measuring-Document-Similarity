@@ -14,32 +14,31 @@ public interface Parseable{
     
     /**
      * Checks if the source is available
-     * @return boolean
+     * @return The availability of the source file
      */
     public boolean availableSource();
     
     /**
      * Returns the source error message
-     * @return String
+     * @return The error message
      */
     public String getErrorMessage();
    
     /*
      * Returns the name of the source
-     * @return String
+     * @return The name of the source
      */
     public String getSourceName();
       
     /**
      * Reads the content of the file.
-     * Returns whether the file was read successfully or not
-     * @return boolean
+     * @return Whether the file was read successfully or not
      */
     public boolean readContent();
     
     /**
      * Returns the content type of the file
-     * @return String
+     * @return Content type
      */
     public String getContentType();
 
